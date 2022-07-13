@@ -1,0 +1,23 @@
+﻿@model List<MVC.Models.Tarea>
+<h1>Tareas</h1>
+<p>
+	<a asp-action="Create">Crear</a>
+</p>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Responsables</th>
+			<th>Descripcion</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+		@foreach (var Tarea in Model)
+	   {
+		<tr>
+			<th>@Html.DisplayFor(m=>Tarea.Responsables)</th>
+			<th>@Html.DisplayFor(m=>Tarea.Descripcion)</th>
+		</tr>
+	   }
+	</tbody>
+</table>
