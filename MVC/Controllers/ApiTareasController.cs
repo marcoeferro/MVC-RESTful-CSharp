@@ -16,7 +16,10 @@ namespace MVC.Controllers
             _context = context;
         }
         public async Task<List<Tarea>> Get()
-            => await _context.Tareas.ToListAsync();
+        {
+            return await _context.Tareas.ToListAsync();
+        }
+            
         //Crear
         [HttpPost()]
        public async Task<IActionResult> Create(Tarea model)
@@ -28,9 +31,9 @@ namespace MVC.Controllers
                     tarea.Responsables = model.Responsables;
                     tarea.Descripcion = model.Descripcion;
                 }
-                _context.Add(tarea);
+                _context.Add(model);
                 await _context.SaveChangesAsync();
-                return Ok(tarea);
+                return Ok(model);
             }
             return BadRequest();
         }
