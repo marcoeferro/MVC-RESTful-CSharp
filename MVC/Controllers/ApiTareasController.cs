@@ -18,25 +18,60 @@ namespace MVC.Controllers
         public async Task<List<Tarea>> Get()
             => await _context.Tareas.ToListAsync();
         //Crear
-        [HttpPost]
-        public async Task<IActionResult> Create(Tarea model)
+        [HttpPost()]
+       public async Task<IActionResult> Create(Tarea model)
         {
             if (ModelState.IsValid)
             {
                 var tarea = new Tarea();
                 {
-                    tarea.Responsables = model.Responsables,
+                    tarea.Responsables = model.Responsables;
                     tarea.Descripcion = model.Descripcion;
                 }
+                _context.Add(tarea);
+                await _context.SaveChangesAsync();
+                return Ok(tarea);
             }
-            return;
+            return BadRequest();
         }
+        
         //Modificacion
         [HttpPut]
-        public async Task<List<Tarea>> Put() => await _context.Tareas.ToListAsync();
+        public async Task<IActionResult> Put(Tarea model) { 
+            if (ModelState.IsValid)
+            {
+                foreach (var tarea in _context.Tareas)
+                {
+                    if(tarea.Id == model.Id)
+                    {
+                        _context.Update(tarea);
+                        await _context.SaveChangesAsync();
+                        
+                        return Ok(model);
+                    }
+                }
+            }
+            return NotFound(model);
+        }
+
         //Delete
         [HttpDelete]
-        public async Task<List<Tarea>> Delete() => await _context.Tareas.ToListAsync()
+        public async Task<IActionResult> Delete(Tarea model) {
+            if (ModelState.IsValid)
+            {
+                foreach (var tarea in _context.Tareas)
+                {
+                    if (tarea.Id == model.Id)
+                    {
+                        _context.Remove(tarea);
+                        await _context.SaveChangesAsync();
+
+                        return Ok(model);
+                    }
+                }
+            }
+            return NotFound(model);
+        }
 
 
 
