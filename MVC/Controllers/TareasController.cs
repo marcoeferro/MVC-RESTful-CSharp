@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MVC.Views.Tareas.ViewModels;
 
 namespace MVC.Controllers
-{
+{   
     public class TareasController : Controller
     {
         private readonly TareasContext _context;

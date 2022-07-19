@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVC.Models;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace MVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class ApiTareasController : ControllerBase
     {
         public readonly TareasContext _context;
@@ -15,14 +18,18 @@ namespace MVC.Controllers
         {
             _context = context;
         }
-        public async Task<List<Tarea>> Get()
+
+        //Get
+        [HttpGet]
+        public  List<Tarea> Get()
         {
-            return await _context.Tareas.ToListAsync();
+            return _context.Tareas.ToList();
         }
-            
+
+        
         //Crear
-        [HttpPost()]
-       public async Task<IActionResult> Create(Tarea model)
+        [HttpPost]
+       public async Task<IActionResult> Create([FromBody]Tarea model)
         {
             if (ModelState.IsValid)
             {
@@ -40,7 +47,7 @@ namespace MVC.Controllers
         
         //Modificacion
         [HttpPut]
-        public async Task<IActionResult> Put(Tarea model) { 
+        public async Task<IActionResult> Put([FromBody] Tarea model) { 
             if (ModelState.IsValid)
             {
                 foreach (var tarea in _context.Tareas)
@@ -59,7 +66,7 @@ namespace MVC.Controllers
 
         //Delete
         [HttpDelete]
-        public async Task<IActionResult> Delete(Tarea model) {
+        public async Task<IActionResult> Delete([FromBody]Tarea model) {
             if (ModelState.IsValid)
             {
                 foreach (var tarea in _context.Tareas)

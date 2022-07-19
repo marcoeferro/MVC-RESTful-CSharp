@@ -18,6 +18,7 @@ namespace MVC.Models
 
         public virtual DbSet<Estado> Estados { get; set; } = null!;
         public virtual DbSet<Tarea> Tareas { get; set; } = null!;
+        public virtual DbSet<Usuarios> Usuarios { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -46,9 +47,7 @@ namespace MVC.Models
 
             modelBuilder.Entity<Tarea>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.HasNoKey();
 
                 entity.Property(e => e.Descripcion)
                     .HasMaxLength(250)
@@ -77,6 +76,8 @@ namespace MVC.Models
                     .HasColumnType("datetime")
                     .HasColumnName("fechaLimite");
 
+                entity.Property(e => e.Id).HasColumnName("id");
+
                 entity.Property(e => e.IdPadre)
                     .HasMaxLength(10)
                     .HasColumnName("idPadre")
@@ -96,6 +97,34 @@ namespace MVC.Models
                     .HasMaxLength(250)
                     .IsUnicode(false)
                     .HasColumnName("responsables");
+            });
+
+            modelBuilder.Entity<Usuarios>(entity =>
+            {
+                entity.Property(e => e.Apellido)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Contrasenia)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Rol)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Usuario)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("Usuario");
             });
 
             OnModelCreatingPartial(modelBuilder);

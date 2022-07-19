@@ -59,3 +59,10 @@ C:\Users\Usuario\Desktop\C#\MVC\MVC\obj\Debug\net6.0\refint\MVC.dll
 C:\Users\Usuario\Desktop\C#\MVC\MVC\obj\Debug\net6.0\MVC.pdb
 C:\Users\Usuario\Desktop\C#\MVC\MVC\obj\Debug\net6.0\MVC.genruntimeconfig.cache
 C:\Users\Usuario\Desktop\C#\MVC\MVC\obj\Debug\net6.0\ref\MVC.dll
+C:\Users\Usuario\Desktop\C#\MVC\MVC\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\Users\Usuario\Desktop\C#\MVC\MVC\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Usuario\Desktop\C#\MVC\MVC\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Usuario\Desktop\C#\MVC\MVC\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Usuario\Desktop\C#\MVC\MVC\obj\Debug\net6.0\MVC.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Usuario\Desktop\C#\MVC\MVC\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Usuario\Desktop\C#\MVC\MVC\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
