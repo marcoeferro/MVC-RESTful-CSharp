@@ -15,23 +15,17 @@ namespace MVC.Controllers
     public class LoginController : ControllerBase
     {
         public readonly IConfiguration _config;
+        public readonly TareasContext _context;
 
-        public LoginController(IConfiguration config)
+        public LoginController(IConfiguration config, TareasContext context)
         {
             _config = config;
-        }
-        
-        
-        [HttpGet]
-        public string Get()
-        {
-            return "this is the Login Controller";
-        }
+            _context = context;
+        }        
         
         //Login
         [AllowAnonymous]
-        [HttpPost]
-       
+        [HttpPost]       
         public IActionResult login([FromBody] UserLogin userlogin)
         {
             var user = Authenticate(userlogin);
@@ -48,8 +42,7 @@ namespace MVC.Controllers
             }
         }
 
-        // Crea el Token para el Usuario
-        
+        // Crea el Token para el Usuario        
         private object Generate(Usuarios user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
@@ -69,7 +62,6 @@ namespace MVC.Controllers
               claims,
               expires: DateTime.Now.AddMinutes(15),
               signingCredentials: credentials);
-
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
@@ -78,13 +70,12 @@ namespace MVC.Controllers
         private Usuarios Authenticate(UserLogin userlogin)
         {
             //var currentUser = TareasContext.User.FirstOrDefault(o => o.Username.ToLower() == userLogin.Username.ToLower() && o.Password == userLogin.Password);
-            var currentUser = UserConstants.Users.FirstOrDefault(o => (o.Nombre.ToLower() == UserLogin.UserName.ToLower() && o.Contrasenia == UserLogin.Password));
+            var currentUser = UserConstants.Users.FirstOrDefault(o => (o.Usuario.ToLower() == userlogin.UserName.ToLower() && o.Contrasenia == userlogin.Password));
 
             if (currentUser != null)
             {
                 return currentUser;
             }
-
             return null;
         }
 

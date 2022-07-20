@@ -4,32 +4,44 @@ using Microsoft.EntityFrameworkCore;
 using MVC.Models;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     
-    public class ApiTareasController : ControllerBase
+    public class UserController : ControllerBase
     {
         public readonly TareasContext _context;
 
-        public ApiTareasController(TareasContext context)
+        public UserController(TareasContext context)
         {
             _context = context;
         }
 
-        //Get
-        [HttpGet]
-        public  List<Tarea> Get()
+
+        [HttpGet("Test")]
+        [Authorize]
+        public IActionResult AdminsEndpoint()
         {
+            var currentUser = GetCurrentUser();
+
+            return Ok($"Hi {currentUser.Nombre}, you are an {currentUser.Rol}");
+        }
+        //Get
+        [HttpGet("Read")]
+        [Authorize]
+        public  List<Tarea> Get()
+        {   
             return _context.Tareas.ToList();
         }
 
         
         //Crear
-        [HttpPost]
-       public async Task<IActionResult> Create([FromBody]Tarea model)
+        [HttpPost("Create")]
+        [Authorize]
+        public async Task<IActionResult> Create([FromBody]Tarea model)
         {
             if (ModelState.IsValid)
             {
@@ -46,7 +58,8 @@ namespace MVC.Controllers
         }
         
         //Modificacion
-        [HttpPut]
+        [HttpPut("Update")]
+        [Authorize]
         public async Task<IActionResult> Put([FromBody] Tarea model) { 
             if (ModelState.IsValid)
             {
@@ -65,7 +78,8 @@ namespace MVC.Controllers
         }
 
         //Delete
-        [HttpDelete]
+        [HttpDelete("Delete")]
+        [Authorize]
         public async Task<IActionResult> Delete([FromBody]Tarea model) {
             if (ModelState.IsValid)
             {
@@ -84,6 +98,25 @@ namespace MVC.Controllers
         }
 
 
+        private Usuarios GetCurrentUser()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+
+            if (identity != null)
+            {
+                var userClaims = identity.Claims;
+
+                return new Usuarios
+                {
+                    Usuario = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier)?.Value,
+                    Email = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Email)?.Value,
+                    Nombre = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.GivenName)?.Value,
+                    Apellido = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Surname)?.Value,
+                    Rol = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Role)?.Value
+                };
+            }
+            return null;
+        }
 
     }
 }
